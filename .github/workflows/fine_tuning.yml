@@ -2,8 +2,8 @@ name: Run FineTuning on Kaggle with GPU
 
 on:
   push:
-    branches:
-      - main
+    paths-ignore:
+      - README.md
 
 jobs:
   run-finetuning:
