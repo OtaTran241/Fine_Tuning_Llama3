@@ -58,4 +58,4 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           huggingface-cli login --token $HF_TOKEN
-          huggingface-cli upload ./output --repo thuan220401/Llama3_StackOverflow_FineTurning
+          huggingface-cli upload ./output --repo thuan220401/Llama3_StackOverflow_FineTuning

@@ -1,11 +1,18 @@
+!pip install transformers accelerate bitsandbytes datasets peft gdown
+
 import pandas as pd
 from datasets import Dataset
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer, BitsAndBytesConfig
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+import gdown
+
+url = 'https://drive.google.com/file/d/1GJ0HyraB1DaUSrUUEgrez3F3CtgJFfat/view?usp=sharing'
+output_path = '/kaggle/working/'
+gdown.download(url, output_path, quiet=False,fuzzy=True)
 
 
-data = pd.read_csv('Cleaned_Questions_Answers_For_Finetuning/Cleaned_Questions_Answers_For_Finetuning.csv')
+data = pd.read_csv('/kaggle/working/Cleaned_Questions_Answers_For_Finetuning.csv')
 
 dataset = Dataset.from_pandas(data.iloc[:1])
 
