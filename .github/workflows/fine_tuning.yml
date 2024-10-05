@@ -26,11 +26,10 @@ jobs:
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
-
         run: |
           echo '{
-            "id": "${{ secrets.KAGGLE_USERNAME }}/fine-tuning",
-            "title": "fine-tuning",
+            "id": "'"${{ secrets.KAGGLE_USERNAME }}"'/fine-tuning",
+            "title": "Fine Tuning Job",
             "code_file": "FineTuning.py",
             "language": "python",
             "kernel_type": "notebook",
@@ -38,6 +37,8 @@ jobs:
             "enable_gpu": true,
             "enable_internet": true
           }' > kernel-metadata.json
+
+          python -m json.tool kernel-metadata.json
 
           kaggle kernels push -p .
 
