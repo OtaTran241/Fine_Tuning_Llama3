@@ -1,0 +1,61 @@
+name: Run FineTuning on Kaggle with GPU
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-finetuning:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install Kaggle CLI
+        run: |
+          pip install kaggle
+
+      - name: Upload to Kaggle
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+
+        run: |
+          echo '{
+            "id": "'"${{ secrets.KAGGLE_USERNAME }}"'/fine-tuning",
+            "title": "Fine Tuning Job",
+            "code_file": "FineTuning.py",
+            "language": "python",
+            "kernel_type": "notebook",
+            "is_private": true,
+            "enable_gpu": true,
+            "enable_internet": true
+          }' > kernel-metadata.json
+
+          kaggle kernels push -p .
+
+      - name: Run Kaggle Kernel
+        run: |
+          # Tải dataset từ Google Drive
+          os.system("gdown --id 1CzhQofppniqToEVmc6yS1FGLVmKjNCf2")
+          with zipfile.ZipFile("Cleaned_Questions_Answers_For_Finetuning.zip", "r") as zip_ref:
+              zip_ref.extractall()
+
+          os.system("pip install -r requirements.txt")
+          ' > FineTuning.py
+          
+          kaggle kernels output ${{ secrets.KAGGLE_USERNAME }}/fine-tuning -p ./output
+
+      - name: Upload Output to Hugging Face Hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          huggingface-cli login --token $HF_TOKEN
+          huggingface-cli upload ./output --repo thuan220401/Llama3_StackOverflow_FineTurning
