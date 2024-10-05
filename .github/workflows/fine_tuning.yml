@@ -29,8 +29,8 @@ jobs:
         run: |
           echo '{
             "id": "'"${{ secrets.KAGGLE_USERNAME }}"'/fine-tuning",
-            "title": "Fine Tuning Job",
-            "code_file": "FineTuning.py",
+            "title": "fine-tuning",
+            "code_file": "./FineTuning.py",
             "language": "python",
             "kernel_type": "notebook",
             "is_private": true,
