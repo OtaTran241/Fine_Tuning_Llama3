@@ -9,7 +9,7 @@ This project demonstrates how to fine-tune the LLaMA-3 model on a dataset derive
 - [Model Setup](#model-setup)
 - [Training](#training)
 - [Inference](#inference)
-- [Saving & Uploading the Model](#Saving-&-Uploading)
+- [Saving & Uploading the Model](#Saving-and-Uploading)
 - [Contributing](#contributing)
   
 ## Introduction
@@ -151,7 +151,7 @@ inputs = tokenizer(prompt, return_tensors='pt', padding=True, truncation=True).t
 outputs = model.generate(**inputs, max_length=512)
 ```
 
-## Saving & Uploading
+## Saving and Uploading
 
 After training, the model and tokenizer are saved locally and uploaded to Hugging Face Model Hub.
 
