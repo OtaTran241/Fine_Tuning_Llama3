@@ -163,21 +163,28 @@ api.upload_folder(folder_path="./fine_tuned_model", repo_id="your_repo_id", repo
 
 ### Archiving Checkpoints
 
+Upload model and tokenizer to Huggingface Hub 
+```python
+login("hf_asdasdasdasdasd")
+
+model_dir = "./fine_tuned_model"
+
+api = HfApi()
+repo_id = "thuan220401/Llama3_StackOverflow_FineTuning"
+
+api.upload_folder(
+    folder_path=model_dir, 
+    repo_id=repo_id,
+    repo_type="model"
+)
+```
+
 You can also archive model checkpoints as a `.zip` file for future use.
 
 ```python
 import shutil
 shutil.make_archive('checkpoint-372', 'zip', '/path/to/checkpoint-folder')
 ```
-
-## Acknowledgments
-
-Special thanks to the following tools and libraries:
-
-- **Hugging Face Transformers**
-- **TRL (Transformer Reinforcement Learning)**
-- **PEFT (Parameter-Efficient Fine-Tuning)**
-- **BitsAndBytes** for 4-bit quantization**
   
 ## Contributing
 Contributions are welcome! If you have any ideas for improving the model or adding new features, feel free to submit a pull request or send an email to [tranducthuan220401@gmail.com](mailto:tranducthuan220401@gmail.com).
