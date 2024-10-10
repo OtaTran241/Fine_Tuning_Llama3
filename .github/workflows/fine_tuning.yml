@@ -2,8 +2,8 @@ name: Run FineTuning on Kaggle with GPU
 
 on:
   push:
-    branches:
-      - main
+    paths-ignore:
+      - README.md
 
 jobs:
   run-finetuning:
@@ -26,12 +26,11 @@ jobs:
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
-
         run: |
           echo '{
             "id": "'"${{ secrets.KAGGLE_USERNAME }}"'/fine-tuning",
-            "title": "Fine Tuning Job",
-            "code_file": "FineTuning.py",
+            "title": "fine-tuning",
+            "code_file": "./FineTuning.py",
             "language": "python",
             "kernel_type": "notebook",
             "is_private": true,
@@ -39,18 +38,12 @@ jobs:
             "enable_internet": true
           }' > kernel-metadata.json
 
+          python -m json.tool kernel-metadata.json
+
           kaggle kernels push -p .
 
       - name: Run Kaggle Kernel
         run: |
-          # Tải dataset từ Google Drive
-          os.system("gdown --id 1CzhQofppniqToEVmc6yS1FGLVmKjNCf2")
-          with zipfile.ZipFile("Cleaned_Questions_Answers_For_Finetuning.zip", "r") as zip_ref:
-              zip_ref.extractall()
-
-          os.system("pip install -r requirements.txt")
-          ' > FineTuning.py
-          
           kaggle kernels output ${{ secrets.KAGGLE_USERNAME }}/fine-tuning -p ./output
 
       - name: Upload Output to Hugging Face Hub
@@ -58,4 +51,4 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           huggingface-cli login --token $HF_TOKEN
-          huggingface-cli upload ./output --repo thuan220401/Llama3_StackOverflow_FineTurning
+          huggingface-cli upload ./output --repo thuan220401/Llama3_StackOverflow_FineTuning
