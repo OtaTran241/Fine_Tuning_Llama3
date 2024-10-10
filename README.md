@@ -1,4 +1,4 @@
-
+# Notebook (finetuning-llama3.ipynb) summary.
 # Fine-Tuning LLaMA-3 on StackOverflow Python Dataset with QLoRA
 
 This project demonstrates how to fine-tune the LLaMA-3 model on a dataset derived from StackOverflow Python questions and answers using the **QLoRA** (Quantized Low Rank Adaptation) technique. The model is fine-tuned on a custom dataset and adapted for generating conversational AI responses in a Python development context.
@@ -38,6 +38,8 @@ The dataset is loaded from a CSV file and transformed into a Hugging Face `Datas
 data = pd.read_csv('/path/to/Cleaned_Questions_Answers_For_Finetuning.csv')
 dataset = Dataset.from_pandas(data.iloc[:2000])
 ```
+
+Only the first 2000 rows are used for fine-tuning due to hardware limitations, and the checkpoint can be loaded to continue training on the remaining part of the dataset.
 
 ## Model Setup
 
