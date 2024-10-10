@@ -5,7 +5,7 @@ This project demonstrates how to fine-tune the LLaMA-3 model on a dataset derive
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Dataset](#dataset)
+- [Data Processing](#Data-Processing)
 - [Model Setup](#model-setup)
 - [Training](#training)
 - [Inference](#inference)
@@ -15,9 +15,18 @@ This project demonstrates how to fine-tune the LLaMA-3 model on a dataset derive
 ## Introduction
 This project fine-tunes the **NousResearch/Hermes-3-Llama-3.1-8B** model using QLoRA on a subset of 2,000 Python-related questions and answers from StackOverflow. The fine-tuning is performed using Hugging Face's `transformers`, `trl`, and `peft` libraries to reduce memory usage while maintaining model performance.
 
+## Data Processing
+You can download the dataset at [here](https://www.kaggle.com/datasets/stackoverflow/pythonquestions?select=Answers.csv)
 
-## Dataset
+DataProcessing.py to cleans and prepares StackOverflow questions and answers for fine-tuning:
 
+1. **Loading Data**: Reads `Questions.csv` and `Answers.csv`.
+2. **HTML Cleaning**: Uses `BeautifulSoup` to strip HTML tags from the `Body` columns.
+3. **Filtering**: Only answers with a score greater than 3 are kept. Missing values are removed.
+4. **Merging**: Combines questions and answers using `Id` and `ParentId`.
+5. **Encoding Fix**: Ensures UTF-8 encoding for all text.
+6. **Saving**: Exports the cleaned data to `Cleaned_Questions_Answers_For_Finetuning.csv`.
+   
 The dataset used is a preprocessed CSV file containing cleaned StackOverflow Python questions and their corresponding answers. Only two columns are kept for fine-tuning:
 
 - **`Cleaned_Questions`**: The cleaned Python question text.
@@ -42,7 +51,25 @@ bnb_config = BitsAndBytesConfig(load_in_4bit=True, ...)
 model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=bnb_config, ...)
 ```
 
-### LoRA Configuration
+### QLoRA Configuration
+
+Quantizing the model
+
+```python
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.float16
+)
+
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    device_map='auto',
+    quantization_config=bnb_config,
+    trust_remote_code=True
+)
+```
 
 LoRA (Low Rank Adaptation) is applied to optimize specific layers of the model for training while keeping the rest frozen. This reduces the number of trainable parameters.
 
@@ -100,6 +127,7 @@ training_args = SFTConfig(
     remove_unused_columns=True
 )
 ```
+trainer
 ```python
 trainer = SFTTrainer(
     model=model,
