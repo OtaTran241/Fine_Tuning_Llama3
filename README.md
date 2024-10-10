@@ -101,7 +101,7 @@ model = get_peft_model(model, lora_config)
 
 ## Training
 
-The model is fine-tuned using `SFTTrainer` from the `trl` library with 6 epochs and gradient accumulation to handle batch sizes. The following configuration is used:
+The model is fine-tuned using `SFTTrainer` from the `trl` library with 6 epochs and gradient accumulation to handle batch sizes. The following configuration is used:  
 training_args 
 ```python
 training_args = SFTConfig(
