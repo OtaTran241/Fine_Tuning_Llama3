@@ -134,9 +134,12 @@ trainer
 trainer = SFTTrainer(
     model=model,
     train_dataset=tokenized_dataset,
-    args=training_args,
     peft_config=lora_config,
-    max_seq_length=512
+    max_seq_length=512,
+    dataset_text_field="text",
+    tokenizer=tokenizer,
+    args=training_args,
+    packing= False
 )
 trainer.train()
 ```
