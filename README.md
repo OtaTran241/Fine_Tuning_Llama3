@@ -9,7 +9,7 @@ This project demonstrates how to fine-tune the LLaMA-3 model on a dataset derive
 - [Model Setup](#model-setup)
 - [Training](#training)
 - [Inference](#inference)
-- [Saving & Uploading the Model](#saving-uploading)
+- [Saving & Uploading the Model](#Saving-&-Uploading)
 - [Contributing](#contributing)
   
 ## Introduction
