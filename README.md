@@ -13,7 +13,7 @@ This project demonstrates how to fine-tune the LLaMA-3 model on a dataset derive
 - [Contributing](#contributing)
   
 ## Introduction
-This project fine-tunes the **NousResearch/Hermes-3-Llama-3.1-8B** model using QLoRA on a subset of 2,000 Python-related questions and answers from StackOverflow. The fine-tuning is performed using Hugging Face's `transformers`, `trl`, and `peft` libraries to reduce memory usage while maintaining model performance.
+This project fine-tunes the **NousResearch/Hermes-3-Llama-3.1-8B** model using QLoRA on a Python-related questions and answers from StackOverflow. The fine-tuning is performed using Hugging Face's `transformers`, `trl`, and `peft` libraries to reduce memory usage while maintaining model performance.
 
 ## Data Processing
 You can download the dataset at [here](https://www.kaggle.com/datasets/stackoverflow/pythonquestions?select=Answers.csv)
